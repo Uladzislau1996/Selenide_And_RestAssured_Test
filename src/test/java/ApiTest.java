@@ -8,7 +8,7 @@ import static com.github.automatedowl.tools.AllureEnvironmentWriter.allureEnviro
 import static io.restassured.RestAssured.*;
 
 
-public class ApiAndUiTest {
+public class ApiTest {
 
     private final static String URL = "https://reqres.in";
 

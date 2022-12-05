@@ -7,7 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="API_AND_UI_Test_Project" />
+        <module name="Selenide_And_RestAssured_Test" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Selenide_And_RestAssured_Test" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>

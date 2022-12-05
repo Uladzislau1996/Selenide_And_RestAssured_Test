@@ -8,6 +8,8 @@
 /uiDesigner.xml
 /vcs.xml
 /target/
+/modules.xml
+/Selenide_And_RestAssured_Test.iml
 .gitattributes
 .DS_Store
 **/.DS_Store
