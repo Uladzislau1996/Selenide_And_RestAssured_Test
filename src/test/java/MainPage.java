@@ -1,5 +1,8 @@
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+
+import java.time.Duration;
+
 import static com.codeborne.selenide.Selenide.$;
 
 public class MainPage {
@@ -31,6 +34,7 @@ public class MainPage {
     private SelenideElement postLoginSuccessful = $(".endpoints>ul>li:nth-child(13)");
     private SelenideElement postLoginUnSuccessful = $(".endpoints>ul>li:nth-child(14)");
     private SelenideElement getDelayedResponse = $(".endpoints>ul>li:nth-child(15)");
+    private SelenideElement responseCode = $(".response-code");
 
     public void checkElementIsPresent(){
         logo.shouldBe(Condition.visible);
@@ -107,8 +111,12 @@ public class MainPage {
         getDelayedResponse.click();
     }
 
-    public String getUrlRequest(){
-        return requestUrl.getText();
+    public void getUrlRequest(String statusCode){
+        requestUrl.shouldHave(Condition.text(statusCode),  Duration.ofSeconds(10));
+    }
+
+    public void checkResponseCode(String statusCode){
+        responseCode.shouldHave(Condition.text(statusCode),  Duration.ofSeconds(10));
     }
 
 

@@ -1,18 +1,21 @@
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 
 public class UITest {
 
-    /*@BeforeMethod
+    @BeforeMethod
     public void setUp(){
         Configuration.browser = "Chrome";
         Configuration.pageLoadStrategy = "eager";
-        Configuration.driverManagerEnabled = false;
-        Configuration.headless = true;
-    }*/
+        Configuration.driverManagerEnabled = true;
+        //Configuration.headless = true;
+        Selenide.open("https://reqres.in/");
+    }
 
     @AfterMethod
     public void tearDown(){
@@ -23,45 +26,77 @@ public class UITest {
 
     @Test
     public void checkAllElementsArePresent(){
-        Selenide.open("https://reqres.in/");
         MainPage mainPage = new MainPage();
         mainPage.checkElementIsPresent();
     }
 
     @Test
     public void checkUrlRequest(){
-        Selenide.open("https://reqres.in/");
         MainPage mainPage = new MainPage();
         mainPage.clickGetListUser();
-        Assert.assertEquals(mainPage.getUrlRequest(), "/api/users?page=2", "Not correct URL for Get ListUser request");
+        mainPage.getUrlRequest("/api/users?page=2");
         mainPage.clickGetSingleUser();
-        Assert.assertEquals(mainPage.getUrlRequest(), "/api/users/2", "Not correct URL for Get SingleUser request");
+        mainPage.getUrlRequest("/api/users/2");
         mainPage.clickGetSingleUserNotFound();
-        Assert.assertEquals(mainPage.getUrlRequest(), "/api/users/23", "Not correct URL for Get SingleUserNotFound request");
+        mainPage.getUrlRequest("/api/users/23");
         mainPage.clickGetListResource();
-        Assert.assertEquals(mainPage.getUrlRequest(), "/api/unknown", "Not correct URL for Get ListResource request");
+        mainPage.getUrlRequest("/api/unknown");
         mainPage.clickGetSingleResource();
-        Assert.assertEquals(mainPage.getUrlRequest(), "/api/unknown/2", "Not correct URL for Get SingleResource request");
+        mainPage.getUrlRequest("/api/unknown/2");
         mainPage.clickGetSingleResourceNotFound();
-        Assert.assertEquals(mainPage.getUrlRequest(), "/api/unknown/23", "Not correct URL for Get SingleResourceNotFound User request");
+        mainPage.getUrlRequest("/api/unknown/23");
         mainPage.clickPostCreate();
-        Assert.assertEquals(mainPage.getUrlRequest(), "/api/users", "Not correct URL for Post Create request");
+        mainPage.getUrlRequest("/api/users");
         mainPage.clickPutUpdate();
-        Assert.assertEquals(mainPage.getUrlRequest(), "/api/users/2", "Not correct URL for Put Update request");
+        mainPage.getUrlRequest("/api/users/2");
         mainPage.clickPatchUpdate();
-        Assert.assertEquals(mainPage.getUrlRequest(), "/api/users/2", "Not correct URL for Patch Update request");
+        mainPage.getUrlRequest("/api/users/2");
         mainPage.clickDelete();
-        Assert.assertEquals(mainPage.getUrlRequest(), "/api/users/2", "Not correct URL for Delete request");
+        mainPage.getUrlRequest("/api/users/2");
         mainPage.clickPostRegisterSuccessful();
-        Assert.assertEquals(mainPage.getUrlRequest(), "/api/register", "Not correct URL for Post RegisterSuccessful request");
+        mainPage.getUrlRequest("/api/register");
         mainPage.clickPostRegisterUnsuccessful();
-        Assert.assertEquals(mainPage.getUrlRequest(), "/api/register", "Not correct URL for Post RegisterUnsuccessful request");
+        mainPage.getUrlRequest("/api/register");
         mainPage.clickPostLoginSuccessful();
-        Assert.assertEquals(mainPage.getUrlRequest(), "/api/login", "Not correct URL for Post LoginSuccessful request");
+        mainPage.getUrlRequest("/api/login");
         mainPage.clickPostLoginUnsuccessful();
-        Assert.assertEquals(mainPage.getUrlRequest(), "/api/login", "Not correct URL for Post LoginUnsuccessful request");
+        mainPage.getUrlRequest("/api/login");
         mainPage.clickGetDelayedResponse();
-        Assert.assertEquals(mainPage.getUrlRequest(), "/api/users?delay=3", "Not correct URL for Get DelayedResponse request");
+        mainPage.getUrlRequest("/api/users?delay=3");}
+
+    @Test
+    public void checkResponseCode(){
+        MainPage mainPage = new MainPage();
+        mainPage.clickGetListUser();
+        mainPage.checkResponseCode("200");
+        mainPage.clickGetSingleUser();
+        mainPage.checkResponseCode("200");
+        mainPage.clickGetSingleUserNotFound();
+        mainPage.checkResponseCode("404");
+        mainPage.clickGetListResource();
+        mainPage.checkResponseCode("200");
+        mainPage.clickGetSingleResource();
+        mainPage.checkResponseCode("200");
+        mainPage.clickGetSingleResourceNotFound();
+        mainPage.checkResponseCode("404");
+        mainPage.clickPostCreate();
+        mainPage.checkResponseCode("201");
+        mainPage.clickPutUpdate();
+        mainPage.checkResponseCode("200");
+        mainPage.clickPatchUpdate();
+        mainPage.checkResponseCode("200");
+        mainPage.clickDelete();
+        mainPage.checkResponseCode("204");
+        mainPage.clickPostRegisterSuccessful();
+        mainPage.checkResponseCode("200");
+        mainPage.clickPostRegisterUnsuccessful();
+        mainPage.checkResponseCode("400");
+        mainPage.clickPostLoginSuccessful();
+        mainPage.checkResponseCode("200");
+        mainPage.clickPostLoginUnsuccessful();
+        mainPage.checkResponseCode("400");
+        mainPage.clickGetDelayedResponse();
+        mainPage.checkResponseCode("400");
     }
 
 }
